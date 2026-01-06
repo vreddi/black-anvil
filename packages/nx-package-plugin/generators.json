@@ -1,0 +1,9 @@
+{
+  "generators": {
+    "tsup-package": {
+      "factory": "./dist/generators/tsup-package/tsup-package",
+      "schema": "./dist/generators/tsup-package/schema.json",
+      "description": "tsup package generator"
+    }
+  }
+}

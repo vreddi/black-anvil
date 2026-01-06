@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "$id": "TsupPackage",
+  "title": "Tsup Package Generator",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the package",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What is the name of the package? (eg: @example/package-name)"
+    },
+    "description": {
+      "type": "string",
+      "description": "The description of the package",
+      "x-prompt": "What is the description of the package?"
+    },
+    "platform": {
+      "type": "string",
+      "description": "The platform of the package",
+      "enum": ["node-only", "browser-only", "node-and-browser"],
+      "default": "node-only",
+      "x-prompt": {
+        "type": "list",
+        "message": "What is the platform of the package?",
+        "items": [
+          {
+            "value": "node-only",
+            "label": "Node.js only",
+            "description": "For packages that run in Node.js (CLIs, Nx executors/generators, server utilities). Can use Node APIs like fs, path, and process. Not intended to be bundled into a browser app."
+          },
+          {
+            "value": "browser-only",
+            "label": "Browser only",
+            "description": "For packages meant to run in the browser (React components, UI utilities, client-side helpers). Should avoid Node-only APIs. Typically built as ESM and consumed by bundlers like Vite/Webpack."
+          },
+          {
+            "value": "node-and-browser",
+            "label": "Node.js and Browser",
+            "description": "For packages that work in both environments. Best for \"universal\" utilities (e.g., parsing, formatting, shared types/helpers). Must avoid environment-specific APIs or provide separate builds/exports for Node vs browser."
+          }
+        ]
+      }
+    },
+    "dropLocation": {
+      "type": "string",
+      "description": "The location to drop the package",
+      "default": "packages",
+      "x-prompt": "Where do you want to drop the package? (leave blank for default)"
+    },
+    "baseTsconfigPath": {
+      "type": "string",
+      "description": "The path to the base tsconfig.json",
+      "x-prompt": "Where is the base tsconfig.json? (leave blank for default)"
+    },
+    "addProjectFile": {
+      "type": "boolean",
+      "description": "Whether to add a project file",
+      "default": true,
+      "x-prompt": "Do you want to add a project file? (leave blank for default)"
+    }
+  },
+  "required": ["name", "description", "platform", "dropLocation"]
+}

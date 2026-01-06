@@ -1,0 +1,38 @@
+# <%= name %>
+
+<%= description %>
+
+## Package.json Design
+
+This package uses a modern `package.json` configuration that follows Node.js best practices for dual-package (ESM/CommonJS) support. Here's why this shape was chosen:
+
+### Conditional Exports
+
+The `exports` field is the recommended way to define package entry points in modern Node.js. Unlike the legacy `main` and `module` fields, `exports` provides:
+
+- **Conditional resolution**: Different entry points can be resolved based on how the package is imported (`import` vs `require`)
+- **Better encapsulation**: Only explicitly exported paths are accessible, preventing access to internal files
+- **Future-proof**: Aligns with Node.js's direction for package entry points
+
+### Type-Aware Conditional Exports
+
+In the conditional exports configuration, the order of conditions matters. The `types` condition is placed first within each export condition because:
+
+- **TypeScript and other type checkers** prioritize the `types` condition when resolving module types
+- **Type-first resolution** ensures that TypeScript can find type definitions before resolving the runtime code
+- **Better IDE support** provides accurate autocomplete and type checking during development
+
+The structure allows TypeScript to resolve:
+
+- `./dist/index.d.ts` for ESM imports
+- `./dist/index.d.cts` for CommonJS requires
+
+### Files Field
+
+The `files` field explicitly declares which files should be included when publishing to npm:
+
+- **Security**: Prevents accidentally publishing sensitive files (e.g., `.env`, source code, test files)
+- **Size optimization**: Only includes necessary files (typically `dist/`, `README.md`, `LICENSE`)
+- **Predictability**: Makes it clear what consumers will receive when they install your package
+
+This ensures that only the compiled output (`dist/`) and essential documentation files are published, keeping package size small and secure.

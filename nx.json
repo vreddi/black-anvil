@@ -1,5 +1,9 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "workspaceLayout": {
+    "libsDir": "packages",
+    "appsDir": "apps"
+  },
   "namedInputs": {
     "default": [
       "{projectRoot}/**/*",
@@ -26,5 +30,17 @@
       }
     }
   ],
-  "nxCloudId": "6959c5c91357a61f6d1a452a"
+  "nxCloudId": "6959c5c91357a61f6d1a452a",
+  "targetDefaults": {
+    "@nx/js:tsc": {
+      "cache": true,
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "production",
+        "^production"
+      ]
+    }
+  }
 }
