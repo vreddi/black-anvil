@@ -22,6 +22,15 @@ export interface TsupPackageGeneratorSchema {
   dropLocation?: string;
 
   /**
+   * The path to the base tsconfig.json. If nothing is provided
+   * the tsconfig.json will be generated without extending any
+   * other tsconfig.json. This is useful if you want to create a
+   * package that is not part of an Nx workspace.
+   * @default undefined
+   */
+  baseTsconfigPath?: string;
+
+  /**
    * Whether to add a project file
    * @default true
    */

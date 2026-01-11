@@ -1,6 +1,6 @@
 # nx-package-plugin
 
-This library was generated with [Nx](https://nx.dev).
+> Comprehensive Nx generator that assists in generating a Typescript package.
 
 ## Building
 
@@ -10,4 +10,4 @@ Run `nx build nx-package-plugin` to build the library.
 
 This plugin provides the following generators:
 
-- **[package](./src/generators/package/README.md)** - Creates a new package with modern Node.js configuration
+- **[tsup-package](./src/generators/tsup-package/README.md)** - Generate a TypeScript package configured to use tsup as its bundler

@@ -11,13 +11,15 @@ export async function tsupPackageGenerator(
   tree: Tree,
   options: TsupPackageGeneratorSchema
 ) {
-  const projectRoot = `packages/${options.name}`;
-  addProjectConfiguration(tree, options.name, {
-    root: projectRoot,
-    projectType: "library",
-    sourceRoot: `${projectRoot}/src`,
-    targets: {},
-  });
+  const projectRoot = options.dropLocation ?? `packages/${options.name}`;
+  if (options.addProjectFile) {
+    addProjectConfiguration(tree, options.name, {
+      root: projectRoot,
+      projectType: "library",
+      sourceRoot: `${projectRoot}/src`,
+      targets: {},
+    });
+  }
   generateFiles(tree, path.join(__dirname, "files"), projectRoot, options);
   await formatFiles(tree);
 }
