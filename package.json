@@ -4,6 +4,8 @@
   "license": "MIT",
   "scripts": {
     "nx": "nx",
+    "build": "nx run-many -t build",
+    "lint": "nx run-many -t lint",
     "release": "nx release",
     "release:dry-run": "nx release --dry-run",
     "release:plan": "nx release plan",

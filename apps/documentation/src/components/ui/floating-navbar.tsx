@@ -40,7 +40,8 @@ export const FloatingNav = ({
 
     // Check if current is not undefined and is a number
     if (typeof current === "number") {
-      let direction = current! - scrollYProgress.getPrevious()!;
+      const previous = scrollYProgress.getPrevious() ?? 0;
+      const direction = current - previous;
 
       if (scrollYProgress.get() < 0.05) {
         setVisible(false);
@@ -79,9 +80,9 @@ export const FloatingNav = ({
           className
         )}
       >
-        {navItems.map((navItem: any, idx: number) => (
+        {navItems.map((navItem) => (
           <a
-            key={`link=${idx}`}
+            key={navItem.link}
             href={navItem.link}
             className={cn(
               "relative items-center flex space-x-1",
@@ -97,6 +98,7 @@ export const FloatingNav = ({
           </a>
         ))}
         <button
+          type="button"
           className={cn(
             "text-sm font-medium relative px-4 py-2 rounded-full",
             "bg-white/30 dark:bg-white/10",
