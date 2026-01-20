@@ -44,6 +44,8 @@ Create a conventional commit for the current changes following project conventio
 
 5. **Stage files if needed** and create the commit
 
+6. **Push the changes** to the remote repository
+
 ## Examples
 
 For changes to `packages/nx-package-plugin`:
