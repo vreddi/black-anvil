@@ -40,7 +40,7 @@ Create a conventional commit for the current changes following project conventio
    Rules:
    - Subject line: lowercase, no period, max 72 chars
    - Use imperative mood: "add" not "added" or "adds"
-   - Breaking changes: add `!` after scope, e.g., `feat(api)!: remove deprecated endpoint`
+   - Breaking changes: add exclamation mark after scope, e.g., feat(api)!: remove deprecated endpoint
 
 5. **Stage files if needed** and create the commit
 
