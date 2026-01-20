@@ -35,4 +35,10 @@ export interface TsupPackageGeneratorSchema {
    * @default true
    */
   addProjectFile?: boolean;
+
+  /**
+   * Path to a JSON file containing tsup configuration options.
+   * The file should conform to the tsup-options.schema.json schema.
+   */
+  tsupOptionsFile?: string;
 }

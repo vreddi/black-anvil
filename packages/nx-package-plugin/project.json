@@ -4,6 +4,34 @@
   "sourceRoot": "packages/nx-package-plugin/src",
   "projectType": "library",
   "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "packages/nx-package-plugin/dist",
+        "main": "packages/nx-package-plugin/src/index.ts",
+        "tsConfig": "packages/nx-package-plugin/tsconfig.lib.json",
+        "assets": [
+          {
+            "input": "packages/nx-package-plugin/src",
+            "glob": "**/*.json",
+            "output": "src"
+          },
+          {
+            "input": "packages/nx-package-plugin/src",
+            "glob": "**/*.template",
+            "output": "src"
+          }
+        ]
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vitest run",
+        "cwd": "packages/nx-package-plugin"
+      }
+    },
     "nx-release-publish": {
       "executor": "@nx/js:release-publish",
       "options": {

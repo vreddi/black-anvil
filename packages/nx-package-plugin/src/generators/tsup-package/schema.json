@@ -61,6 +61,10 @@
       "description": "Whether to add a project file",
       "default": true,
       "x-prompt": "Do you want to add a project file? (leave blank for default)"
+    },
+    "tsupOptionsFile": {
+      "type": "string",
+      "description": "Path to a JSON file containing tsup configuration options. The file should conform to the tsup-options.schema.json schema."
     }
   },
   "required": ["name", "description", "platform", "dropLocation"]

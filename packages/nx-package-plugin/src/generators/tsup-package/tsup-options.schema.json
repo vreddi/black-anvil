@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/schema",
+  "$id": "TsupOptions",
+  "title": "Tsup Configuration Options",
+  "description": "Configuration options for tsup build. This schema defines the options that can be customized when generating a tsup-based package.",
+  "type": "object",
+  "properties": {
+    "sourcemap": {
+      "type": "boolean",
+      "description": "Generate source maps for debugging. When enabled, creates .map files alongside output files.",
+      "default": true
+    },
+    "splitting": {
+      "type": "boolean",
+      "description": "Enable code splitting. When enabled, shared code between entry points is split into separate chunks. Useful for reducing bundle size when multiple entry points share code. Note: Only works with ESM format.",
+      "default": false
+    }
+  },
+  "additionalProperties": false
+}
