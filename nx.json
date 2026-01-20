@@ -41,6 +41,35 @@
         "production",
         "^production"
       ]
+    },
+    "nx-release-publish": {
+      "dependsOn": [
+        "build"
+      ],
+      "options": {
+        "packageRoot": "packages/{projectName}"
+      }
+    }
+  },
+  "release": {
+    "projects": ["packages/*"],
+    "projectsRelationship": "independent",
+    "releaseTagPattern": "{projectName}@{version}",
+    "version": {
+      "conventionalCommits": true
+    },
+    "versionPlans": true,
+    "changelog": {
+      "projectChangelogs": {
+        "createRelease": "github",
+        "file": "{projectRoot}/CHANGELOG.md"
+      },
+      "workspaceChangelog": false
+    },
+    "git": {
+      "commit": true,
+      "tag": true,
+      "commitMessage": "chore(release): publish {version}"
     }
   }
 }

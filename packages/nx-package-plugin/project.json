@@ -1,8 +1,15 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "name": "@foundry/nx-package-plugin",
+  "name": "@blackanvil/nx-package-plugin",
   "sourceRoot": "packages/nx-package-plugin/src",
   "projectType": "library",
-  "targets": {},
-  "tags": []
+  "targets": {
+    "nx-release-publish": {
+      "executor": "@nx/js:release-publish",
+      "options": {
+        "packageRoot": "packages/nx-package-plugin"
+      }
+    }
+  },
+  "tags": ["preview", "publishable"]
 }

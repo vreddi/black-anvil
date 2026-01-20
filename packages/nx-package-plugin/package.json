@@ -1,7 +1,22 @@
 {
-  "name": "@foundry/nx-package-plugin",
+  "name": "@blackanvil/nx-package-plugin",
   "version": "0.0.1",
-  "private": true,
+  "description": "Nx plugin for scaffolding TypeScript packages with tsup",
+  "license": "MIT",
+  "private": false,
+  "author": "Black Anvil",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vishrutreddi/foundry.git",
+    "directory": "packages/nx-package-plugin"
+  },
+  "keywords": [
+    "nx",
+    "nx-plugin",
+    "generator",
+    "tsup",
+    "typescript"
+  ],
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -12,6 +27,9 @@
       "import": "./dist/index.js",
       "default": "./dist/index.js"
     }
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "dependencies": {
     "@nx/devkit": "22.3.3",
