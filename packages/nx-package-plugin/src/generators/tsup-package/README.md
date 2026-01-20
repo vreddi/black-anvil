@@ -24,13 +24,13 @@ This generator scaffolds a complete package setup optimized for **tsup**, a fast
 ## Usage
 
 ```bash
-nx generate @foundry/nx-package-plugin:tsup-package
+nx generate @blackanvil/nx-package-plugin:tsup-package
 ```
 
 Or with options:
 
 ```bash
-nx generate @foundry/nx-package-plugin:tsup-package \
+nx generate @blackanvil/nx-package-plugin:tsup-package \
   --name=@example/my-package \
   --description="My awesome package" \
   --platform=node-only

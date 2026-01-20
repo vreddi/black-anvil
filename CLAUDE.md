@@ -30,7 +30,7 @@ pnpm nx sync                      # Sync TypeScript project references
 
 ### Package Generation
 ```bash
-nx generate @foundry/nx-package-plugin:tsup-package --name=@scope/package-name
+nx generate @blackanvil/nx-package-plugin:tsup-package --name=@scope/package-name
 ```
 
 ### shadcn Components
@@ -62,7 +62,7 @@ apps/documentation/src/
 ```
 
 ### Nx Plugin
-The `@foundry/nx-package-plugin` provides a `tsup-package` generator that creates TypeScript packages with:
+The `@blackanvil/nx-package-plugin` provides a `tsup-package` generator that creates TypeScript packages with:
 - Dual ESM/CJS output via tsup
 - Automatic type definition generation
 - Vitest testing setup
