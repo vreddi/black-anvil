@@ -1,6 +1,6 @@
 {
   "name": "@blackanvil/nx-package-plugin",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Nx plugin for scaffolding TypeScript packages with tsup",
   "license": "MIT",
   "private": false,
