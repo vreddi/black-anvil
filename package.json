@@ -6,6 +6,7 @@
     "nx": "nx",
     "build": "nx run-many -t build",
     "lint": "nx run-many -t lint",
+    "test": "nx run-many -t test",
     "release": "nx release",
     "release:dry-run": "nx release --dry-run",
     "release:plan": "nx release plan",
