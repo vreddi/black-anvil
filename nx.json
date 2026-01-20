@@ -42,6 +42,11 @@
         "^production"
       ]
     },
+    "typecheck": {
+      "dependsOn": [
+        "build"
+      ]
+    },
     "nx-release-publish": {
       "dependsOn": [
         "build"

@@ -1,8 +1,8 @@
 {
   "generators": {
     "tsup-package": {
-      "factory": "./dist/src/generators/tsup-package/tsup-package",
-      "schema": "./dist/src/generators/tsup-package/schema.json",
+      "factory": "./dist/generators/tsup-package/tsup-package",
+      "schema": "./dist/generators/tsup-package/schema.json",
       "description": "Generate a TypeScript package configured to use tsup as its bundler"
     }
   }
