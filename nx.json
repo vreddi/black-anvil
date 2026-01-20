@@ -30,7 +30,7 @@
       }
     }
   ],
-  "nxCloudId": "6959c5c91357a61f6d1a452a",
+  "nxCloudId": "696f1888ad0d9cebee7b0f63",
   "targetDefaults": {
     "@nx/js:tsc": {
       "cache": true,
@@ -52,7 +52,9 @@
     }
   },
   "release": {
-    "projects": ["packages/*"],
+    "projects": [
+      "packages/*"
+    ],
     "projectsRelationship": "independent",
     "releaseTagPattern": "{projectName}@{version}",
     "version": {
