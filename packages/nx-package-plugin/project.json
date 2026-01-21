@@ -5,24 +5,16 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
+      "executor": "nx:run-commands",
+      "outputs": ["{projectRoot}/dist"],
       "options": {
-        "outputPath": "packages/nx-package-plugin/dist",
-        "main": "packages/nx-package-plugin/src/index.ts",
-        "tsConfig": "packages/nx-package-plugin/tsconfig.lib.json",
-        "assets": [
-          {
-            "input": "packages/nx-package-plugin/src",
-            "glob": "**/*.json",
-            "output": "src"
-          },
-          {
-            "input": "packages/nx-package-plugin/src",
-            "glob": "**/*.template",
-            "output": "src"
-          }
-        ]
+        "commands": [
+          "tsc --build tsconfig.lib.json",
+          "cp -r src/generators/tsup-package/*.json dist/generators/tsup-package/",
+          "cp -r src/generators/tsup-package/files dist/generators/tsup-package/"
+        ],
+        "cwd": "packages/nx-package-plugin",
+        "parallel": false
       }
     },
     "test": {
