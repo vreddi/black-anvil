@@ -24,12 +24,16 @@ Developer creates version plan
          │
          ▼
    Release workflow runs
-   (version bump, changelog, tags)
-         │
-         ▼
-   Publish workflow runs
-   (npm publish triggered by tag)
+   ├─ version bump
+   ├─ changelog + GitHub release
+   ├─ npm publish (with provenance)
+   └─ push tags
 ```
+
+A single `Release` workflow handles versioning, changelogs, GitHub releases,
+and npm publishing in one run. Tag pushes do **not** trigger a separate
+publish job — this avoids the GitHub Actions limitation where pushes made
+with the default `GITHUB_TOKEN` cannot trigger downstream workflows.
 
 ## Creating a Version Plan
 
@@ -101,9 +105,8 @@ git commit -m "feat(nx-package-plugin)!: change default output directory"
 3. Release workflow automatically:
    - Bumps versions based on version plans/conventional commits
    - Generates changelogs
-   - Creates git tags
-   - Creates GitHub releases
-4. Publish workflow automatically publishes to npm
+   - Creates git tags + GitHub releases
+   - Publishes to npm with provenance
 
 ### Manual Release
 
