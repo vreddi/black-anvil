@@ -1,10 +1,16 @@
 "use client";
-import { motion, useScroll, useTransform } from "motion/react";
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+} from "motion/react";
 import { ChevronDown } from "lucide-react";
 import { useRef } from "react";
 
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
+  const reduced = useReducedMotion() ?? false;
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
@@ -72,8 +78,12 @@ export function Hero() {
         className="absolute bottom-10 left-1/2 -translate-x-1/2"
       >
         <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+          animate={reduced ? undefined : { y: [0, 8, 0] }}
+          transition={
+            reduced
+              ? undefined
+              : { duration: 2.2, repeat: Infinity, ease: "easeInOut" }
+          }
           className="flex flex-col items-center gap-1 text-amber-100/80"
         >
           <span className="text-[10px] uppercase tracking-[0.3em]">Scroll</span>

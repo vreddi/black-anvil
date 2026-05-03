@@ -31,7 +31,7 @@ export function PluginCard({ plugin, index }: { plugin: Plugin; index: number })
           target="_blank"
           rel="noreferrer"
           aria-label={`${plugin.name} on GitHub`}
-          className="rounded-full p-2 text-muted-foreground opacity-0 transition group-hover:opacity-100 hover:bg-emerald-500/10 hover:text-emerald-600 dark:hover:text-emerald-400"
+          className="rounded-full p-2 text-muted-foreground opacity-0 transition focus-visible:opacity-100 group-hover:opacity-100 hover:bg-emerald-500/10 hover:text-emerald-600 dark:hover:text-emerald-400"
         >
           <ArrowUpRight className="h-4 w-4" />
         </a>

@@ -22,7 +22,7 @@ export const plugins: Plugin[] = [
       },
     ],
     install: "pnpm add -D @blackanvil/nx-package-plugin",
-    repo: "https://github.com/vishrutreddi/foundry/tree/main/packages/nx-package-plugin",
+    repo: "https://github.com/vreddi/black-anvil/tree/main/packages/nx-package-plugin",
     npm: "https://www.npmjs.com/package/@blackanvil/nx-package-plugin",
   },
 ];
