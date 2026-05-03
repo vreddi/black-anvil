@@ -1,104 +1,87 @@
-# New Nx Repository
+# Foundry
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+> Opinionated Nx plugins for shipping modern TypeScript projects, built by [Black Anvil](https://github.com/vishrutreddi).
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is ready ✨.
+Foundry is the home for a small, growing collection of [Nx](https://nx.dev) plugins I extract from my own projects and open-source so other developers can use them too. Each plugin is opinionated by design — the goal is to encode a working setup rather than expose every possible knob.
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/nx-api/js?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+## What's inside
 
-## Generate a library
+This repository is an Nx monorepo (managed with [pnpm](https://pnpm.io)) containing:
 
-```sh
-npx nx g @nx/js:lib packages/pkg1 --publishable --importPath=@my-org/pkg1
-```
+| Path | Description |
+| --- | --- |
+| [`apps/documentation`](./apps/documentation) | The Foundry documentation site — a [TanStack Start](https://tanstack.com/start) app (React 19 + Vite + Tailwind v4) that lists the available plugins. |
+| [`packages/nx-package-plugin`](./packages/nx-package-plugin) | `@blackanvil/nx-package-plugin` — Nx generators for scaffolding TypeScript packages bundled with [tsup](https://tsup.egoist.dev). |
 
-## Run tasks
+## Plugins
 
-To build the library use:
+### [`@blackanvil/nx-package-plugin`](./packages/nx-package-plugin)
 
-```sh
-npx nx build pkg1
-```
+Scaffolds a modern, dual-format (ESM + CJS) TypeScript package with:
 
-To run any task with Nx use:
-
-```sh
-npx nx <target> <project-name>
-```
-
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
-
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Versioning and releasing
-
-To version and release the library use
-
-```
-npx nx release
-```
-
-Pass `--dry-run` to see what would happen without actually releasing the library.
-
-[Learn more about Nx release &raquo;](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Keep TypeScript project references up to date
-
-Nx automatically updates TypeScript [project references](https://www.typescriptlang.org/docs/handbook/project-references.html) in `tsconfig.json` files to ensure they remain accurate based on your project dependencies (`import` or `require` statements). This sync is automatically done when running tasks such as `build` or `typecheck`, which require updated references to function correctly.
-
-To manually trigger the process to sync the project graph dependencies information to the TypeScript project references, run the following command:
+- A `package.json` using conditional `exports` and a `types`-first resolution order
+- A ready-to-go `tsup.config.ts`
+- TypeScript and Nx project configuration wired into the workspace
+- Vitest set up for tests
 
 ```sh
-npx nx sync
+nx generate @blackanvil/nx-package-plugin:tsup-package --name=@scope/package-name
 ```
 
-You can enforce that the TypeScript project references are always in the correct state when running in CI by adding a step to your CI job configuration that runs the following command:
+See the [package README](./packages/nx-package-plugin/README.md) and the [`tsup-package` generator docs](./packages/nx-package-plugin/src/generators/tsup-package/README.md) for full details.
+
+## Getting started
+
+Install dependencies:
 
 ```sh
-npx nx sync:check
+pnpm install
 ```
 
-[Learn more about nx sync](https://nx.dev/reference/nx-commands#sync)
-
-## Nx Cloud
-
-Nx Cloud ensures a [fast and scalable CI](https://nx.dev/ci/intro/why-nx-cloud?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) pipeline. It includes features such as:
-
-- [Remote caching](https://nx.dev/ci/features/remote-cache?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task distribution across multiple machines](https://nx.dev/ci/features/distribute-task-execution?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Automated e2e test splitting](https://nx.dev/ci/features/split-e2e-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task flakiness detection and rerunning](https://nx.dev/ci/features/flaky-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-### Set up CI (non-Github Actions CI)
-
-**Note:** This is only required if your CI provider is not GitHub Actions.
-
-Use the following command to configure a CI workflow for your workspace:
+Run the documentation site locally:
 
 ```sh
-npx nx g ci-workflow
+pnpm nx dev documentation
 ```
 
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+Build everything:
 
-## Install Nx Console
+```sh
+pnpm build
+```
 
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
+Run tests across the workspace:
 
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+```sh
+pnpm test
+```
 
-## Useful links
+## Repository layout
 
-Learn more:
+```
+foundry/
+├── apps/
+│   └── documentation/        # TanStack Start docs site
+├── packages/
+│   └── nx-package-plugin/    # @blackanvil/nx-package-plugin
+├── docs/                     # Workspace-level architecture & publishing notes
+├── nx.json                   # Nx workspace config
+└── pnpm-workspace.yaml
+```
 
-- [Learn more about this workspace setup](https://nx.dev/nx-api/js?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+## Releases
 
-And join the Nx community:
+Versioning and publishing are handled by [`nx release`](https://nx.dev/features/manage-releases):
 
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+```sh
+pnpm release:dry-run   # preview a release
+pnpm release           # cut a release
+```
+
+## Contributing
+
+Issues and pull requests are welcome. These plugins are intentionally opinionated — if a default doesn't work for you, open an issue and let's talk about it before it becomes a configuration option.
+
+## License
+
+MIT
