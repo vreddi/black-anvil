@@ -18,6 +18,7 @@ function App() {
             plugins section, then fades into the page background. The gradient
             stops are sized in vh so the fade always completes within the 40vh
             padding-top, regardless of how much content the section holds. */}
+        {/* biome-ignore lint/correctness/useUniqueElementIds: stable fragment anchor for #plugins links */}
         <section
           id="plugins"
           className="relative pb-24"
