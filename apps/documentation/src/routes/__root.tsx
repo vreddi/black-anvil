@@ -17,11 +17,11 @@ export const Route = createRootRoute({
         content: "width=device-width, initial-scale=1",
       },
       {
-        title: "Foundry",
+        title: "Black Anvil",
       },
       {
         description:
-          "Foundry is a platform for building and deploying your applications.",
+          "Black Anvil is a platform for building and deploying your applications.",
       },
     ],
     links: [

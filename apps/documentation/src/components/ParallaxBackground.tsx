@@ -1,186 +1,117 @@
 "use client";
-import { useScroll, useTransform, motion } from "motion/react";
+import { motion, useScroll, useTransform } from "motion/react";
 import { useEffect, useState } from "react";
+
+/**
+ * Layered pixel-art parallax.
+ *
+ * The mountain assets each have a transparent area above a silhouette that
+ * fades into a solid colour block extending to the bottom of the image. They
+ * are designed to be stacked with the bottom of every layer pinned to the
+ * bottom of the viewport, with progressively shorter heights so each layer's
+ * silhouette peeks above the layer in front of it.
+ *
+ * We use background-image + repeat-x rather than <img> so the pixel art tiles
+ * crisply across any viewport width without distortion or cropping.
+ */
+
+type Layer = {
+  src: string;
+  /** Height of the layer as a fraction of the viewport. */
+  heightVh: number;
+  /** Parallax travel range. Negative means the layer drifts up as we scroll. */
+  range: [number, number];
+};
+
+const LAYERS: Layer[] = [
+  // Background → foreground. Heights step down so each silhouette appears
+  // higher on screen than the one in front of it.
+  { src: "/backgrounds/mountains-4.png", heightVh: 78, range: [0, -8] },
+  { src: "/backgrounds/mountains-3.png", heightVh: 58, range: [0, -16] },
+  { src: "/backgrounds/mountains-2.png", heightVh: 44, range: [0, -28] },
+  { src: "/backgrounds/mountains-1.png", heightVh: 30, range: [0, -44] },
+];
 
 export function ParallaxBackground() {
   const { scrollYProgress } = useScroll();
-  const [isMobile, setIsMobile] = useState(false);
+  const [reduced, setReduced] = useState(false);
 
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
+    const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setReduced(mql.matches);
+    update();
+    mql.addEventListener("change", update);
+    return () => mql.removeEventListener("change", update);
   }, []);
 
-  // Reduce parallax intensity on mobile for better performance
-  // Different parallax speeds for depth effect
-  // Farther layers move slower (smaller multiplier)
-  const skyY = useTransform(
-    scrollYProgress,
-    [0, 1],
-    ["0%", isMobile ? "10%" : "20%"]
-  );
-  const mountains4Y = useTransform(
-    scrollYProgress,
-    [0, 1],
-    ["0%", isMobile ? "15%" : "30%"]
-  );
-  const mountains3Y = useTransform(
-    scrollYProgress,
-    [0, 1],
-    ["0%", isMobile ? "20%" : "40%"]
-  );
-  const mountains2Y = useTransform(
-    scrollYProgress,
-    [0, 1],
-    ["0%", isMobile ? "25%" : "50%"]
-  );
-  const mountains1Y = useTransform(
-    scrollYProgress,
-    [0, 1],
-    ["0%", isMobile ? "30%" : "60%"]
-  );
+  // Sky drifts gently downward to feel like the camera is tilting.
+  const skyY = useTransform(scrollYProgress, [0, 1], ["0%", reduced ? "0%" : "8%"]);
 
   return (
     <div
-      className="fixed inset-0 -z-10 overflow-hidden bg-sky-200 dark:bg-slate-900"
-      style={{ width: "100vw", height: "100vh", minHeight: "100vh" }}
+      aria-hidden
+      className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
+      // Sunset gradient backstop matching the warm pixel-art palette so the
+      // empty sky area never reads as plain white before the PNG paints. The
+      // top stop matches the cyan of sky.png so when the sky parallax drifts
+      // downward on scroll, the exposed gradient seam stays invisible instead
+      // of revealing a dull-blue band.
+      style={{
+        background:
+          "linear-gradient(to bottom, #5bb8c0 0%, #7a9aa4 22%, #8c5a5a 50%, #c66a3a 78%, #e7a45a 100%)",
+      }}
     >
-      {/* Sky layer - moves slowest */}
+      {/* Sky watercolour overlay */}
       <motion.div
-        style={{ y: skyY, width: "100vw", height: "100vh", minHeight: "100vh" }}
+        style={{ y: skyY }}
         className="absolute inset-0 will-change-transform"
       >
         <img
           src="/backgrounds/sky.png"
-          alt="Sky"
-          className="select-none w-full h-full"
+          alt=""
           draggable={false}
           loading="eager"
-          style={{
-            minHeight: "100vh",
-            minWidth: "100vw",
-            objectFit: "cover",
-            objectPosition: "center top",
-          }}
-          onError={(e) => {
-            console.error("Failed to load sky.png", e);
-          }}
+          className="h-full w-full select-none object-cover opacity-60 mix-blend-soft-light"
+          style={{ imageRendering: "pixelated" }}
         />
       </motion.div>
 
-      {/* Mountain layers - farther mountains move slower */}
-      <motion.div
-        style={{
-          y: mountains4Y,
-          width: "100vw",
-          height: "100vh",
-          minHeight: "100vh",
-        }}
-        className="absolute inset-0 will-change-transform"
-      >
-        <img
-          src="/backgrounds/mountains-4.png"
-          alt="Mountains 4"
-          className="select-none w-full h-full"
-          draggable={false}
-          loading="eager"
-          style={{
-            minHeight: "100vh",
-            minWidth: "100vw",
-            objectFit: "cover",
-            objectPosition: "center bottom",
-          }}
-          onError={(e) => {
-            console.error("Failed to load mountains-4.png", e);
-          }}
+      {LAYERS.map((layer) => (
+        <ParallaxLayer
+          key={layer.src}
+          layer={layer}
+          reduced={reduced}
+          scrollYProgress={scrollYProgress}
         />
-      </motion.div>
-
-      <motion.div
-        style={{
-          y: mountains3Y,
-          width: "100vw",
-          height: "100vh",
-          minHeight: "100vh",
-        }}
-        className="absolute inset-0 will-change-transform"
-      >
-        <img
-          src="/backgrounds/mountains-3.png"
-          alt="Mountains 3"
-          className="select-none w-full h-full"
-          draggable={false}
-          loading="eager"
-          style={{
-            minHeight: "100vh",
-            minWidth: "100vw",
-            objectFit: "cover",
-            objectPosition: "center bottom",
-          }}
-          onError={(e) => {
-            console.error("Failed to load mountains-3.png", e);
-          }}
-        />
-      </motion.div>
-
-      <motion.div
-        style={{
-          y: mountains2Y,
-          width: "100vw",
-          height: "100vh",
-          minHeight: "100vh",
-        }}
-        className="absolute inset-0 will-change-transform"
-      >
-        <img
-          src="/backgrounds/mountains-2.png"
-          alt="Mountains 2"
-          className="select-none w-full h-full"
-          draggable={false}
-          loading="eager"
-          style={{
-            minHeight: "100vh",
-            minWidth: "100vw",
-            objectFit: "cover",
-            objectPosition: "center bottom",
-          }}
-          onError={(e) => {
-            console.error("Failed to load mountains-2.png", e);
-          }}
-        />
-      </motion.div>
-
-      {/* Foreground mountains - move fastest */}
-      <motion.div
-        style={{
-          y: mountains1Y,
-          width: "100vw",
-          height: "100vh",
-          minHeight: "100vh",
-        }}
-        className="absolute inset-0 will-change-transform"
-      >
-        <img
-          src="/backgrounds/mountains-1.png"
-          alt="Mountains 1"
-          className="select-none w-full h-full"
-          draggable={false}
-          loading="eager"
-          style={{
-            minHeight: "100vh",
-            minWidth: "100vw",
-            objectFit: "cover",
-            objectPosition: "center bottom",
-          }}
-          onError={(e) => {
-            console.error("Failed to load mountains-1.png", e);
-          }}
-        />
-      </motion.div>
+      ))}
     </div>
+  );
+}
+
+function ParallaxLayer({
+  layer,
+  reduced,
+  scrollYProgress,
+}: {
+  layer: Layer;
+  reduced: boolean;
+  scrollYProgress: ReturnType<typeof useScroll>["scrollYProgress"];
+}) {
+  const [from, to] = reduced ? [0, 0] : layer.range;
+  const y = useTransform(scrollYProgress, [0, 1], [`${from}%`, `${to}%`]);
+
+  return (
+    <motion.div
+      style={{
+        y,
+        height: `${layer.heightVh}vh`,
+        backgroundImage: `url(${layer.src})`,
+        backgroundRepeat: "repeat-x",
+        backgroundPosition: "center bottom",
+        backgroundSize: "auto 100%",
+        imageRendering: "pixelated",
+      }}
+      className="absolute inset-x-0 bottom-0 will-change-transform"
+    />
   );
 }
